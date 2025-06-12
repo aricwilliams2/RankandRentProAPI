@@ -4,7 +4,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Services\CustomerService;
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\API\LeadStatusController;
 
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,9 +29,12 @@ Route::delete('/customers/{id}', fn($id) => response()->json(CustomerService::de
 
 Route::get('/test', fn() => 'API works!');
 
+// Lead API routes with resource controller
+Route::apiResource('leads', LeadController::class);
 
-Route::get('/leads', [LeadController::class, 'index']);
-Route::get('/leads/{id}', [LeadController::class, 'show']);
-Route::post('/leads', [LeadController::class, 'store']);
-Route::put('/leads/{id}', [LeadController::class, 'update']);
-Route::delete('/leads/{id}', [LeadController::class, 'destroy']);
+// Lead status management routes
+Route::prefix('leads')->group(function() {
+    Route::get('/stats/status', [LeadStatusController::class, 'getStatusCounts']);
+    Route::get('/status/{status}', [LeadStatusController::class, 'getLeadsByStatus']);
+    Route::put('/{id}/status', [LeadStatusController::class, 'updateStatus']);
+});

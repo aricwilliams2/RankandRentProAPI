@@ -18,7 +18,8 @@ class Lead extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'reviews', 'phone', 'website', 'contacted'
+        'id', 'name', 'email', 'phone', 'company', 'status', 'notes', 
+        'reviews', 'website', 'contacted'
     ];
 
     /**
@@ -28,6 +29,8 @@ class Lead extends Model
      */
     protected $casts = [
         'reviews' => 'integer',
-        'contacted' => 'boolean'
+        'contacted' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 }
