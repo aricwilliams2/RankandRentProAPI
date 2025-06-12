@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/LeadController.php
-
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
@@ -10,19 +8,41 @@ use Illuminate\Support\Str;
 
 class LeadController extends Controller
 {
+    /**
+     * Display a listing of leads.
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         return response()->json(Lead::all());
     }
 
+    /**
+     * Display the specified lead.
+     * 
+     * @param string $id The lead ID
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
-        return response()->json(Lead::findOrFail($id));
+        $lead = Lead::find($id);
+        if (!$lead) {
+            return response()->json(['error' => 'Lead not found'], 404);
+        }
+        
+        return response()->json($lead);
     }
 
+    /**
+     * Store a newly created lead.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string',
             'reviews' => 'required|integer',
             'phone' => 'required|string',
@@ -30,13 +50,20 @@ class LeadController extends Controller
             'contacted' => 'boolean'
         ]);
 
-        $data['id'] = Str::uuid();
+        $validatedData['id'] = Str::uuid();
 
-        $lead = Lead::create($data);
+        $lead = Lead::create($validatedData);
 
         return response()->json($lead, 201);
     }
 
+    /**
+     * Update the specified lead.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param string $id The lead ID
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         $lead = Lead::findOrFail($id);
@@ -46,6 +73,12 @@ class LeadController extends Controller
         return response()->json($lead);
     }
 
+    /**
+     * Remove the specified lead.
+     * 
+     * @param string $id The lead ID
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         Lead::destroy($id);

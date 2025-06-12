@@ -12,7 +12,22 @@ class Lead extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'id', 'name', 'reviews', 'phone', 'website', 'contacted'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'reviews' => 'integer',
+        'contacted' => 'boolean'
     ];
 }
