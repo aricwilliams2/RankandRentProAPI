@@ -78,7 +78,9 @@ class LeadController extends Controller
             'notes' => 'nullable|string',
             'reviews' => 'nullable|integer',
             'website' => 'nullable|url|max:255',
-            'contacted' => 'boolean'
+            'contacted' => 'boolean',
+                'city' => 'sometimes|nullable|string|max:255' // ✅ Add this
+
         ]);
 
         // Set default values if not provided
