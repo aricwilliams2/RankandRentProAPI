@@ -79,7 +79,7 @@ class LeadController extends Controller
             'reviews' => 'nullable|integer',
             'website' => 'nullable|url|max:255',
             'contacted' => 'boolean',
-                'city' => 'sometimes|nullable|string|max:255' // ✅ Add this
+            'city' => 'sometimes|nullable|string|max:255' // ✅ Add this
 
         ]);
 
@@ -112,7 +112,8 @@ class LeadController extends Controller
             'notes' => 'sometimes|nullable|string',
             'reviews' => 'sometimes|integer',
             'website' => 'sometimes|nullable|url|max:255',
-            'contacted' => 'sometimes|boolean'
+            'contacted' => 'sometimes|boolean',
+            'city' => 'sometimes|nullable|string|max:255'
         ]);
 
         $lead->update($validatedData);
